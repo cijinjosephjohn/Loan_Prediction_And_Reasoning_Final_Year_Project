@@ -1,8 +1,32 @@
-import React from 'react'
+import React,{useState} from 'react'
+import { Link,  useNavigate } from 'react-router-dom'
+import validation from './Homevalidation'
 
 function Home() {
+  const [errors , setErrors] = useState({})
+  const [values,setValues] = useState({
+    dependence: '',
+    Aincome: '',
+    CAincome: '',
+    amount: '',
+    term: '',
+    history: '',
+    area: ''
+
+
+  })
+  const navigate = useNavigate();
+  const handleInput = (event) =>{
+    setValues(prev => ({...prev,[event.target.name]: [event.target.value]}))
+}
+const handleSubmit = (event) =>{
+  event.preventDefault();
+  setErrors(validation(values))
+}
+
   return (
     <>
+    
       <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
         <a className='navbar-brand' href="/Home"><strong>Loan Prediction & {'\n'} Reasoning</strong></a>
         <ul class="navbar-nav ms-auto ">
@@ -22,7 +46,7 @@ function Home() {
       <p className='bg-secondary d-flex justify-content-center pt-5 text-white'><strong>Please fill the form to know your loan eligibility</strong></p>
       <div className='d-flex justify-content-center bg-secondary  p-5'>
         <div className='bg-white p-5 rounded w-90 h-100'>
-          <form action=''>
+          <form action='' onSubmit={handleSubmit}>
             < div className='d-flex justify-content-evenly'>
               <div className='mb-5'>
                 <label htmlFor="Gender" >Gender :  &nbsp;</label>
@@ -49,13 +73,17 @@ function Home() {
             < div className='d-flex justify-content-evenly'>
               <div className='mb-5'>
                 <label htmlFor='dependence'>Dependence :&nbsp;</label>
-                <input type='text' name='dependence' placeholder='No: of dependence'></input>
+                <input type='text' name='dependence' onChange={handleInput}  placeholder='No: of dependence'/>
+                {errors.dependence && <span className='text-danger'>{errors.dependence}</span>}
 
               </div>
               
               <div className='mb-5'>
                 <label htmlFor='Aincome'>Applicant Income :&nbsp;</label>
-                <input type='text' name='Aincome' placeholder='Income'></input>
+                <input type='text' name='Aincome' onChange={handleInput}  placeholder='Income'></input>
+          
+                {errors.Aincome && <span className='text-danger'>{errors.Aincome}</span>}
+
 
               </div>
               
@@ -76,7 +104,8 @@ function Home() {
               &nbsp;
               <div className='mb-5'>
                 <label htmlFor='CAincome'>Co-Applicant Income :&nbsp;</label>
-                <input type='text' name='CAincome' placeholder='Income'></input>
+                <input type='text' name='CAincome' onChange={handleInput} placeholder='Income'></input>
+                {errors.CAincome && <span className='text-danger'>{errors.CAincome}</span>}
 
               </div>
              
@@ -84,13 +113,16 @@ function Home() {
             < div className='d-flex justify-content-between'>
             <div className='mb-5'>
                 <label htmlFor='amount'>Loan Amount :&nbsp;</label>
-                <input type='text' name='amount' placeholder='amount'></input>
+                <input type='text' name='amount' onChange={handleInput}  placeholder='amount'></input>
+                {errors.amount && <span className='text-danger'>{errors.amount}</span>}
 
               </div>
               &nbsp;
               <div className='mb-5'>
                 <label htmlFor='term'>Loan amount term :&nbsp;</label>
-                <input type='text' name='term' placeholder='term'></input>
+                <input type='text' name='term' onChange={handleInput}  placeholder='term'></input>
+                {errors.term && <span className='text-danger'>{errors.term}</span>}
+
 
               </div>
 
@@ -98,22 +130,25 @@ function Home() {
             < div className='d-flex justify-content-evenly'>
             <div className='mb-5'>
                 <label htmlFor='history'>Credit History :&nbsp;</label>
-                <input type='text' name='history' placeholder='credit history'></input>
+                <input type='text' name='history' onChange={handleInput} placeholder='credit history'></input>
+                {errors.history && <span className='text-danger'>{errors.history}</span>}
 
               </div>
               <div className='mb-5'>
                 <label htmlFor='term'>Property Area:&nbsp;</label>
-                <input type='text' name='area' placeholder='area'></input>
+                <input type='text' name='area' onChange={handleInput} placeholder='area'></input>
+                {errors.area && <span className='text-danger'>{errors.area}</span>}
 
               </div>
 
             </div>
-
+            <button type='submit' className='btn btn-success w-100'>SUBMIT </button>
           </form>
-          <button type='submit' className='btn btn-success w-100'>SUBMIT </button>
+          
         </div>
       </div>
       </div>
+      
     </>
   )
 }
